@@ -6,8 +6,11 @@ using Demo.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// string password = File.ReadAllText("/run/secrets/db-password");
+// string connectionString = $"Server=db;Database=example;Uid=root;Pwd={password};";
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"Connecting to MySQL...{connectionString}");
+
 builder.Services.AddDbContext<DemoDbContext>(options => options.UseMySQL(connectionString: connectionString));
 
 
