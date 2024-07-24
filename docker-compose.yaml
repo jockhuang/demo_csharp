@@ -14,7 +14,7 @@ services:
       - ASPNETCORE_URLS=http://+:8000/
     healthcheck:
       test: curl --fail http://backend:8000/api/health
-      interval: 5s
+      interval: 30s
       retries: 5
       start_period: 30s
     depends_on:
@@ -27,7 +27,7 @@ services:
     restart: always
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
-      interval: 3s
+      interval: 30s
       retries: 5
       start_period: 30s
     secrets:
@@ -39,14 +39,7 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     expose:
       - 3306:3306
-  # proxy:
-  #     build: proxy
-  #     ports:
-  #       - 80:80
-  #     depends_on:
-  #       # - backend
-  #       backend:
-  #         condition: service_healthy
+
   frontend:
     image: frontend
     build:
@@ -55,9 +48,7 @@ services:
     ports:
         - 80:80
     depends_on:
-      backend:
-      # waiting until the db is ready, make sure the migration will success
-        condition: service_healthy
+      - backend
 volumes:
   db-data:
 secrets:

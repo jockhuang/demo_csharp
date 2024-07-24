@@ -42,6 +42,11 @@ using(var scope = app.Services.CreateScope()){
         Console.WriteLine(e.Message);
     }
 }
+app.UseCors(corsPolicyBuilder =>
+   corsPolicyBuilder.WithOrigins("http://localhost:5173")
+  .AllowAnyMethod()
+  .AllowAnyHeader()
+);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
