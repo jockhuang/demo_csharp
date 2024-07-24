@@ -30,23 +30,25 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-using(var scope = app.Services.CreateScope()){
-    var services = scope.ServiceProvider;
-    try{
-        if (builder.Configuration["EF_MIGRATE"] == "true"){
-            var db = services.GetRequiredService<DemoDbContext>();
-            db.Database.Migrate();
+    using(var scope = app.Services.CreateScope()){
+        var services = scope.ServiceProvider;
+        try{
+            if (builder.Configuration["EF_MIGRATE"] == "true"){
+                var db = services.GetRequiredService<DemoDbContext>();
+                db.Database.Migrate();
+            }
+        }catch(Exception e){
+            Console.WriteLine(e.Message);
         }
-    }catch(Exception e){
-        Console.WriteLine(e.Message);
     }
+    app.UseCors(corsPolicyBuilder =>
+        corsPolicyBuilder.WithOrigins("http://localhost:5173")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+    );
 }
-app.UseCors(corsPolicyBuilder =>
-   corsPolicyBuilder.WithOrigins("http://localhost:5173")
-  .AllowAnyMethod()
-  .AllowAnyHeader()
-);
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
