@@ -21,8 +21,7 @@ public class DemoDbContext:DbContext{
                 Description = "Shakespeare",
                 IsRelease = true,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                IsDelete = false
+                UpdateDate = DateTime.Now
             },
             new Product
             {
@@ -31,8 +30,7 @@ public class DemoDbContext:DbContext{
                 Description = "Royal Gala",
                 IsRelease = true,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                IsDelete = false
+                UpdateDate = DateTime.Now
             },
             new Product
             {
@@ -41,8 +39,7 @@ public class DemoDbContext:DbContext{
                 Description = "Australian",
                 IsRelease = true,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                IsDelete = false
+                UpdateDate = DateTime.Now
             },
             new Product
             {
@@ -51,8 +48,7 @@ public class DemoDbContext:DbContext{
                 Description = "Philippine",
                 IsRelease = true,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                IsDelete = false
+                UpdateDate = DateTime.Now
             }
         );
     }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Demo.Service;
 using Demo.Controllers;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,15 +14,16 @@ Console.WriteLine($"Connecting to MySQL...{connectionString}");
 
 builder.Services.AddDbContext<DemoDbContext>(options => options.UseMySQL(connectionString: connectionString));
 
-
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
+// builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -29,11 +31,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+using(var scope = app.Services.CreateScope()){
+    var services = scope.ServiceProvider;
+    try{
+        if (builder.Configuration["EF_MIGRATE"] == "true"){
+            var db = services.GetRequiredService<DemoDbContext>();
+            db.Database.Migrate();
+        }
+    }catch(Exception e){
+        Console.WriteLine(e.Message);
+    }
+}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

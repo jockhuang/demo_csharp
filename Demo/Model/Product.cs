@@ -19,6 +19,16 @@ namespace Demo.Model;
     public String? Description{ get; set; }
 
     /// <summary>
+    /// product image url
+    /// </summary>
+    public String? ImageURL{ get; set; }
+
+    /// <summary>
+    /// product price 
+    /// </summary>
+    public double? Price{ get; set; }
+
+    /// <summary>
     /// the flag of the product is released
     /// </summary>
     public Boolean IsRelease{ get; set; }
@@ -33,9 +43,5 @@ namespace Demo.Model;
     /// </summary>
     public DateTime? UpdateDate{ get; set; }
 
-    /// <summary>
-    /// the flag of product that it had been deleted in logic
-    /// </summary>
-    public Boolean IsDelete{ get; set; }
 }
 

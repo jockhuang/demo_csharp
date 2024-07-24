@@ -17,4 +17,5 @@ WORKDIR /App
 COPY --from=build-env /App/out .
 ENTRYPOINT ["dotnet", "Demo.dll"]
 
-
+USER root
+RUN apt-get update && apt-get install -y curl

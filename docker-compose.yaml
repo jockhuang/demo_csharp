@@ -11,9 +11,16 @@ services:
     environment:  
       - ASPNETCORE_ENVIRONMENT=Development  
       - ConnectionStrings_DefaultConnection=Server=db;Database=example;Uid=root;Pwd=/run/secrets/db-password
-      - ASPNETCORE_URLS=http://+:8000
+      - ASPNETCORE_URLS=http://+:8000/
+    healthcheck:
+      test: curl --fail http://backend:8000/api/health
+      interval: 5s
+      retries: 5
+      start_period: 30s
     depends_on:
-      - db
+      db:
+      # waiting until the db is ready, make sure the migration will success
+        condition: service_healthy
 
   db:
     image: mysql
@@ -32,12 +39,25 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     expose:
       - 3306:3306
-  proxy:
-      build: proxy
-      ports:
+  # proxy:
+  #     build: proxy
+  #     ports:
+  #       - 80:80
+  #     depends_on:
+  #       # - backend
+  #       backend:
+  #         condition: service_healthy
+  frontend:
+    image: frontend
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    ports:
         - 80:80
-      depends_on: 
-        - backend
+    depends_on:
+      backend:
+      # waiting until the db is ready, make sure the migration will success
+        condition: service_healthy
 volumes:
   db-data:
 secrets:

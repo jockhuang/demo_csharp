@@ -11,6 +11,12 @@ public class Maillist{
    /// email address
    /// </summary>
     public String? Email{ get; set; }
+
+     /// <summary>
+    ///  description
+    /// </summary>
+    public String? Description{ get; set; }
+
     /// <summary>
     /// the record create datetime
     /// </summary>

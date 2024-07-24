@@ -6,15 +6,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Demo.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-
+[Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<ProductController> _logger;
 
     private readonly DemoDbContext _context;
 
-   public ProductController(DemoDbContext context,ILogger<WeatherForecastController> logger)
+   public ProductController(DemoDbContext context,ILogger<ProductController> logger)
    {
       _context = context;
       _logger = logger;
