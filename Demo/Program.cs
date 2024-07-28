@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Demo.Service;
 using Demo.Controllers;
 using Org.BouncyCastle.Pqc.Crypto.Lms;
+using Demo.Service.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ Console.WriteLine($"Connecting to MySQL...{connectionString}");
 builder.Services.AddDbContext<DemoDbContext>(options => options.UseMySQL(connectionString: connectionString));
 
 // builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

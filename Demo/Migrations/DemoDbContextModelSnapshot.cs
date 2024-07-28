@@ -19,7 +19,7 @@ namespace Demo.Migrations
                 .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Demo.Model.Maillist", b =>
+            modelBuilder.Entity("Demo.Model.MailList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Demo.Migrations
                     b.HasIndex(new[] { "Email" }, "idx_email")
                         .IsUnique();
 
-                    b.ToTable("Maillists");
+                    b.ToTable("MailList");
                 });
 
             modelBuilder.Entity("Demo.Model.Product", b =>
@@ -61,6 +61,7 @@ namespace Demo.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<double?>("Price")
@@ -80,38 +81,38 @@ namespace Demo.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1260),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(810),
                             Description = "Shakespeare",
                             IsRelease = true,
                             Name = "William",
-                            UpdateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1290)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1290),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820),
                             Description = "Royal Gala",
                             IsRelease = true,
                             Name = "Apple",
-                            UpdateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1300)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1300),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820),
                             Description = "Australian",
                             IsRelease = true,
                             Name = "Orange",
-                            UpdateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1300)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1300),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(830),
                             Description = "Philippine",
                             IsRelease = true,
                             Name = "Banana",
-                            UpdateDate = new DateTime(2024, 7, 23, 22, 17, 28, 379, DateTimeKind.Local).AddTicks(1300)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(830)
                         });
                 });
 #pragma warning restore 612, 618

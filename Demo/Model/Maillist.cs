@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Model;
 [Index(nameof(Email),Name="idx_email",IsUnique =true)]
-public class Maillist{
+public class MailList{
      /// <summary>
      /// id
      /// </summary>
@@ -18,7 +18,7 @@ public class Maillist{
     public String? Description{ get; set; }
 
     /// <summary>
-    /// the record create datetime
+    /// the record create date time
     /// </summary>
     public DateTime? CreateDate{ get; set; }
 }

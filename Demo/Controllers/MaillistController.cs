@@ -7,13 +7,13 @@ namespace Demo.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MaillistController : ControllerBase
+public class MailListController : ControllerBase
 {
-    private readonly ILogger<MaillistController> _logger;
+    private readonly ILogger<MailListController> _logger;
 
     private readonly DemoDbContext _context;
 
-   public MaillistController(DemoDbContext context,ILogger<MaillistController> logger)
+   public MailListController(DemoDbContext context,ILogger<MailListController> logger)
    {
       _context = context;
       _logger = logger;
@@ -24,14 +24,14 @@ public class MaillistController : ControllerBase
     [HttpGet("GetMailList")]
     public async Task<ApiResponse> GetMailList()
     {
-        var data =  await _context.Maillists.ToListAsync();
+        var data =  await _context.MailList.ToListAsync();
         return ApiResponse.Ok(data);
     }
 
     [HttpPost("AddSubscription")]
-    public async Task<ApiResponse> AddSubscription(Maillist mail)
+    public async Task<ApiResponse> AddSubscription(MailList mail)
     {
-        _context.Maillists.Add(mail);
+        _context.MailList.Add(mail);
         await _context.SaveChangesAsync();
         return ApiResponse.Ok(mail);
     }

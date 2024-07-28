@@ -9,7 +9,7 @@ public class DemoDbContext:DbContext{
             : base(options) { }
     
     public DbSet<Product> Products { get; set; }
-    public DbSet<Maillist> Maillists { get; set; }
+    public DbSet<MailList> MailList { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

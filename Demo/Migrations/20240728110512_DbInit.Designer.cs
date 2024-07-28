@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20240723093705_add_description")]
-    partial class add_description
+    [Migration("20240728110512_DbInit")]
+    partial class DbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace Demo.Migrations
                 .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Demo.Model.Maillist", b =>
+            modelBuilder.Entity("Demo.Model.MailList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace Demo.Migrations
                     b.HasIndex(new[] { "Email" }, "idx_email")
                         .IsUnique();
 
-                    b.ToTable("Maillists");
+                    b.ToTable("MailList");
                 });
 
             modelBuilder.Entity("Demo.Model.Product", b =>
@@ -57,14 +57,18 @@ namespace Demo.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsRelease")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<float?>("Price")
-                        .HasColumnType("float");
+                    b.Property<double?>("Price")
+                        .HasColumnType("double");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime(6)");
@@ -80,38 +84,38 @@ namespace Demo.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4640),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(810),
                             Description = "Shakespeare",
                             IsRelease = true,
                             Name = "William",
-                            UpdateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4670)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4670),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820),
                             Description = "Royal Gala",
                             IsRelease = true,
                             Name = "Apple",
-                            UpdateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4670)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4670),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820),
                             Description = "Australian",
                             IsRelease = true,
                             Name = "Orange",
-                            UpdateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4680)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(820)
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4680),
+                            CreateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(830),
                             Description = "Philippine",
                             IsRelease = true,
                             Name = "Banana",
-                            UpdateDate = new DateTime(2024, 7, 23, 21, 37, 5, 695, DateTimeKind.Local).AddTicks(4680)
+                            UpdateDate = new DateTime(2024, 7, 28, 23, 5, 11, 860, DateTimeKind.Local).AddTicks(830)
                         });
                 });
 #pragma warning restore 612, 618

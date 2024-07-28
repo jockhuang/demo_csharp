@@ -20,5 +20,5 @@ restart: ## Restart all or c=<name> containers
 logs: ## Show logs for all or c=<name> containers
 	docker compose -f docker-compose.yaml logs --tail=100 -f $(c)
 
-clean: confirm ## Clean all data
+clean: ## Clean all data
 	docker compose -f docker-compose.yaml down

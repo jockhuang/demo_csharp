@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Model;
 [Index(nameof(Name),Name="idx_product_name",IsUnique =true)]
@@ -11,7 +12,8 @@ namespace Demo.Model;
     /// <summary>
     /// product name
     /// </summary>
-    public String? Name{ get; set; }
+    [Required]
+    public String Name{ get; set; }="";
 
     /// <summary>
     /// product description
@@ -31,17 +33,17 @@ namespace Demo.Model;
     /// <summary>
     /// the flag of the product is released
     /// </summary>
-    public Boolean IsRelease{ get; set; }
+    public Boolean IsRelease{ get; set; } = false;
 
     /// <summary>
     /// the create datetime of product
     /// </summary>
-    public DateTime? CreateDate{ get; set; }
+    public DateTime? CreateDate{ get; set; } = DateTime.Now;
 
     /// <summary>
     /// the update datetime of product
     /// </summary>
-    public DateTime? UpdateDate{ get; set; }
+    public DateTime? UpdateDate{ get; set; } = DateTime.Now;
 
 }
 
