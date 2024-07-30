@@ -1,8 +1,8 @@
 using Demo.Model;
 using Demo.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MySqlX.XDevAPI.Common;
+using System.Text.Json;
+
 
 namespace Demo.Controllers;
 
@@ -23,8 +23,10 @@ public class ProductController : ControllerBase
 
    
     [HttpPost("QueryProducts")]
-    public async Task<ApiResponse> GetAllProducts(QueryCondition query)
+    public async Task<ApiResponse> QueryProducts(QueryCondition query)
     {
+        var json = JsonSerializer.Serialize(query);
+        _logger.LogInformation("query condition:{}",json);
         var data =  await _service.QueryProduct(query);
         return ApiResponse.Ok(data);
     }

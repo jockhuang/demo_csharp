@@ -1,7 +1,6 @@
 using Demo.Model;
 using Demo.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Controllers;
 
@@ -11,28 +10,27 @@ public class MailListController : ControllerBase
 {
     private readonly ILogger<MailListController> _logger;
 
-    private readonly DemoDbContext _context;
+    private readonly IMailListService _service;
 
-   public MailListController(DemoDbContext context,ILogger<MailListController> logger)
-   {
-      _context = context;
+    public MailListController(IMailListService service, ILogger<MailListController> logger)
+    {
+      _service = service;
       _logger = logger;
     }
    
 
    
-    [HttpGet("GetMailList")]
-    public async Task<ApiResponse> GetMailList()
+    [HttpPost("GetMailList")]
+    public async Task<ApiResponse> GetMailList(QueryCondition query)
     {
-        var data =  await _context.MailList.ToListAsync();
+        var data =  await _service.GetAllMailList(query);
         return ApiResponse.Ok(data);
     }
 
     [HttpPost("AddSubscription")]
     public async Task<ApiResponse> AddSubscription(MailList mail)
     {
-        _context.MailList.Add(mail);
-        await _context.SaveChangesAsync();
+        var data =  await _service.AddMail(mail);
         return ApiResponse.Ok(mail);
     }
 }

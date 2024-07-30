@@ -10,21 +10,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in apiData" :key="item.id">
+          <tr v-for="item in apiData.items" :key="item.id">
             <th scope="row">{{ item.id }}</th>
             <td>{{ item.email }}</td>
             <td>{{ this.$formatDate(item.createDate,'MM/DD/YYYY') }}</td>
           </tr>
         </tbody>
       </table>
+      <DemoPagination :pageIndex="queryConfig.pageIndex" :pageSize="queryConfig.pageSize" :totalPages="apiData.totalPages" @change-page-config="changePageConfig"/>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import DemoPagination from '../components/Pagination.vue'
 
 export default {
+  components: {
+    DemoPagination
+  },
   data() {
     return { 
+      queryConfig: { "orderBy": "id", "isDesc": false, "pageIndex": 1,"pageSize": 2 },
       apiData: [],
     };
   },
@@ -33,7 +39,7 @@ export default {
   },
   methods: {
     fetchData() {
-      axios.get('http://localhost/api/Maillist/GetMailList')
+      axios.post('http://localhost/api/Maillist/GetMailList',this.queryConfig)
         .then(response => {
           console.log(response.data);
           const data = response.data;
@@ -42,6 +48,11 @@ export default {
         .catch(error => {
           console.error(error);
         });
+    },
+    changePageConfig(newPageIndex,newPageSize) {
+      this.queryConfig.pageIndex =newPageIndex;
+      this.queryConfig.pageSize = newPageSize;
+      this.fetchData();
     }
   }
 }
