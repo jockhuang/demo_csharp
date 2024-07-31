@@ -1,26 +1,16 @@
-<template>     
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-end">
-      <li class="page-item">
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">Page Size</label>
-          <select v-model="PageSize" class="form-select"  @change="changeSize(PageSize)">
-            <option :value="1">1</option>
-            <option :value="2">2</option>
-            <option :value="3">3</option>
-            <option :value="10" selected>10</option>
-          </select>
-        </div>
-      
-      </li>
-      <li class="page-item" v-if="PageIndex > 1" @click.prevent="changePage(PageIndex-1)"><a class="page-link" href="#">Previous</a></li>
-      <li class="page-item" :class="{ active: PageIndex == n}"  v-for="n in totalPages" :key="n" @click.prevent="changePage(n)">
-        <span v-if="PageIndex == n" class="page-link">{{ n }}</span>
-        <a v-else class="page-link" href>{{ n }}</a>
-      </li>
-      <li class="page-item" v-if="totalPages > PageIndex" @click.prevent="changePage(PageIndex+1)"><a class="page-link" href="#">Next</a></li>
-    </ul>
-  </nav>
+<template>
+   <div class="demo-pagination-block-right">
+    <el-pagination
+      :current-page="PageIndex"
+      :page-size="PageSize"
+      :page-sizes="[1, 5, 10, 20]"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalCount"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
+  
 </template>
 
 <script>
@@ -29,15 +19,16 @@ export default {
   emits: ['changePageConfig'],
   data() {
     return{
-      PaigeSize : 10,
-      PageIndex :1
+      PageSize :this.pageSize,
+      PageIndex :this.pageIndex,
+      PageSizeOptions : [1,5,10,50],
     }
   },
   props: {
-    totalPages: {
+    totalCount: {
       type: Number,
       required: true,
-      default:1
+      default:0
     },
     pageIndex: {
       type: Number,
@@ -46,21 +37,29 @@ export default {
     pageSize: {
       type: Number,
       required: true
-    }
+    },
+  },
+  mounted(){
+    // console.log("pageIndex:"+this.PageIndex+",PageSize:"+this.PageSize);
   },
   methods: {
-    changePage(goToPage) {
-      // if (goToPage === this.pageIndex) return;
-      console.log(goToPage);
+    handleCurrentChange(goToPage) {
+      if (goToPage === this.pageIndex) return;
       this.PageIndex = goToPage;
       this.$emit("changePageConfig", this.PageIndex ,this.PageSize);
     },
-    changeSize(newPageSize) {
-      // if (newPageSize === this.pageSize) return;
-      console.log(newPageSize);
+    handleSizeChange(newPageSize) {
+      if (newPageSize === this.pageSize) return;
+      this.PageSize = newPageSize;
       this.$emit("changePageConfig", this.PageIndex ,this.PageSize);
     }
    
   }
 };
 </script>
+
+<style scoped>
+.demo-pagination-block-right{
+  text-align:right;
+}
+</style>
