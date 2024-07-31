@@ -61,7 +61,7 @@
         
         this.fetchData();
       },
-      formatDemoDate(row, col, value, index) {
+      formatDemoDate(row, col, value) {
         // Then specify how you want your dates to be formatted
         return this.$formatDate(value,'MM/DD/YYYY');
       }
