@@ -14,9 +14,9 @@ services:
       - ASPNETCORE_URLS=http://+:8000/
     healthcheck:
       test: curl --fail http://backend:8000/api/health
-      interval: 30s
+      interval: 60s
       retries: 5
-      start_period: 30s
+      start_period: 10s
     depends_on:
       db:
       # waiting until the db is ready, make sure the migration will success
@@ -27,9 +27,9 @@ services:
     restart: always
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
-      interval: 30s
+      interval: 60s
       retries: 5
-      start_period: 30s
+      start_period: 10s
     secrets:
       - db-password
     volumes:

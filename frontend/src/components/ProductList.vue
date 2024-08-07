@@ -2,16 +2,36 @@
 <template >
     <div>
       <h1>Product List</h1>
+      <div class="mt-4">
+        <el-button type="primary" @click="routeToAddProduct">Add</el-button>
+        <el-input
+          v-model="queryConfig.search"
+          style="max-width: 600px"
+          placeholder="Type to search"
+          @input="searchData"
+        >
+          <template #prepend>
+            <el-button :icon="Search" />
+          </template>
+          <template #append>
+            <el-button type="primary" @click="searchData">Search</el-button>
+            
+          </template>
+        </el-input>
+      </div>
       <el-table stripe
         :data="apiData.items"
-        :default-sort="{ prop: 'id', order: 'ascending' }"
+        :default-sort="{ prop: 'id', order: 'descending' }"
         @sort-change="changeOrder" 
         style="width: 100%"
       >
-        <el-table-column prop="id" label="ID" sortable width="180" />
-        <el-table-column prop="name" label="Name" sortable width="180" />
-        <el-table-column prop="description" sortable label="Description"  />
-        <el-table-column prop="isRelease" label="Released" >
+      
+        <el-table-column prop="id" label="ID" sortable width="80" />
+        <el-table-column prop="name" label="Name" sortable width="400" show-overflow-tooltip />
+        <el-table-column prop="description" sortable label="Description"  show-overflow-tooltip/>
+        <el-table-column prop="price" sortable label="Price" width="120"/>
+
+        <el-table-column prop="isRelease" sortable label="Released" width="80">
 
           <template #default="scope">
             <el-switch
@@ -24,19 +44,33 @@
             </el-col> -->
           </template>
         </el-table-column>
-        <el-table-column prop="createDate" :formatter="formatDemoDate" sortable label="Create Date" />
-        <el-table-column label="Operations">
+        <el-table-column prop="createDate" :formatter="formatDemoDate" sortable label="Create Date" width="180"/>
+        <el-table-column width="360">
+          <template #header>
+            Operations
+          </template>
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+            <el-button size="small" @click="handleEdit(scope.row.id)">
               Edit
             </el-button>
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+            <el-popconfirm
+              width="220"
+              confirm-button-text="Yes"
+              cancel-button-text="No, Thanks"
+              icon-color="#626AEF"
+              title="Are you sure to delete this?"
+              @confirm="handleDelete(scope.row.id)"
             >
-              Delete
-            </el-button>
+              <template #reference>
+                <el-button
+                  size="small"
+                  type="danger"
+                >
+                  Delete
+                </el-button>
+              </template>
+            </el-popconfirm>
+            
           </template>
         </el-table-column>
       </el-table>
@@ -44,9 +78,14 @@
       <DemoPagination :pageIndex="queryConfig.pageIndex" :pageSize="queryConfig.pageSize" :totalCount="apiData.totalCount" @change-page-config="changePageConfig"/>
     </div>
 </template>
+<script setup>
+import { Search } from '@element-plus/icons-vue'
+
+</script>
 <script>
 import axios from 'axios';
 import DemoPagination from "./Pagination.vue";
+import { ElMessage } from 'element-plus'
 
 export default {
   name: "DemoProductList",
@@ -56,8 +95,9 @@ export default {
 
   data() {
     return { 
-      queryConfig: { "orderBy": "id", "isDesc": false, "pageIndex": 1,"pageSize": 5 },
+      queryConfig: { "search":"", "orderBy": "id", "isDesc": true, "pageIndex": 1,"pageSize": 5 },
       apiData: [],
+      lastSearch:null,
     };
   },
   mounted(){
@@ -97,16 +137,50 @@ export default {
         
       this.fetchData();
     },
-    formatDemoDate(row, col, value, index) {
+    searchData(){
+      clearTimeout(this.lastSearch);
+      this.lastSearch = setTimeout(() => {
+        this.fetchData();
+        }, 700); 
+    },
+    formatDemoDate(row, col, value) {
       // Then specify how you want your dates to be formatted
       return this.$formatDate(value,'MM/DD/YYYY');
     },
-    handleEdit(index, row){
-      console.log("handleEdit",index, row)
+    handleEdit(id){
+      console.log("handleEdit", id)
+      this.$router.push({ name: 'EditProduct', params: { slug: id } })
+
     },
-    handleDelete (index, row) {
-      console.log("handleDelete",index, row)
-}
+    handleDelete (id) {
+      console.log("handleDelete", id)
+      axios.delete('http://localhost/api/Product/'+id)
+      .then(response => {
+        console.log(response.data);
+        const data = response.data;
+        if(data.code==0){
+          this.fetchData();
+          ElMessage({
+            message: 'Congrats, this product has been deleted!',
+            type: 'success',
+          })
+        }else{
+          ElMessage.error(data.message)
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        if(error.response.data.message){
+          ElMessage.error(error.response.data.message)
+        }else{
+          ElMessage.error(error.message)
+        }
+      });
+     
+    },
+    routeToAddProduct(){
+      this.$router.push({name:'AddProduct'})
+    }
  
   }
 }

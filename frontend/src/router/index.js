@@ -8,7 +8,27 @@ const router = createRouter({
     {
       path: '/',
       name: 'Product',
-      component: ProductListView
+      component: ProductListView,
+    },
+    // {
+    //   name: 'product',
+    //   path: '/product/:slug',
+    //   component: () => import('./views/ProductView.vue'),
+    // },
+    // {
+    //   name: 'edit-product',
+    //   path: '/product/:slug/edit',
+    //   component: () => import('./views/EditProductView.vue'),
+    // },
+    {
+      name: 'AddProduct',
+      path: '/product/create',
+      component: () => import('../views/EditProductView.vue'),
+    },
+    {
+      name: 'EditProduct',
+      path: '/product/:slug/edit',
+      component: () => import('../views/EditProductView.vue'),
     },
     {
       path: '/mailList', 
