@@ -33,6 +33,8 @@ public class ProductService : IProductService
 
     public async Task<Product> AddProduct(Product product)
     {
+        product.CreateDate = DateTime.Now;
+        product.UpdateDate = DateTime.Now;
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
         return product;
@@ -40,7 +42,6 @@ public class ProductService : IProductService
 
     public async Task<bool> DeleteProduct(int productId)
     {
-        var test = _context.Products.ToList();
         var itemToRemove = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
         if (itemToRemove != null) {
             _context.Products.Remove(itemToRemove);
@@ -60,6 +61,7 @@ public class ProductService : IProductService
             dbProduct.Price = product.Price;
             dbProduct.ImageURL  = product.ImageURL;
             dbProduct.IsRelease = product.IsRelease;
+            dbProduct.UpdateDate = DateTime.Now;
             _context.Products.Update(dbProduct);
             _context.SaveChanges();
             return dbProduct;

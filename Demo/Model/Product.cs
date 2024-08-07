@@ -38,12 +38,12 @@ namespace Demo.Model;
     /// <summary>
     /// the create datetime of product
     /// </summary>
-    public DateTime? CreateDate{ get; set; } = DateTime.Now;
+    public DateTime? CreateDate{ get; set; }
 
     /// <summary>
     /// the update datetime of product
     /// </summary>
-    public DateTime? UpdateDate{ get; set; } = DateTime.Now;
+    public DateTime? UpdateDate{ get; set; }
 
 }
 

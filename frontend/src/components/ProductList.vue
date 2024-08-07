@@ -45,12 +45,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="createDate" :formatter="formatDemoDate" sortable label="Create Date" width="180"/>
+        <el-table-column prop="updateDate" :formatter="formatDemoDate" sortable label="Update Date" width="180"/>
         <el-table-column width="360">
           <template #header>
             Operations
           </template>
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.row.id)">
+            <el-button @click="handleEdit(scope.row.id)">
               Edit
             </el-button>
             <el-popconfirm
@@ -63,14 +64,12 @@
             >
               <template #reference>
                 <el-button
-                  size="small"
                   type="danger"
                 >
                   Delete
                 </el-button>
               </template>
             </el-popconfirm>
-            
           </template>
         </el-table-column>
       </el-table>
@@ -80,13 +79,11 @@
 </template>
 <script setup>
 import { Search } from '@element-plus/icons-vue'
-
-</script>
-<script>
 import axios from 'axios';
 import DemoPagination from "./Pagination.vue";
 import { ElMessage } from 'element-plus'
-
+</script>
+<script>
 export default {
   name: "DemoProductList",
   components: {
@@ -95,7 +92,7 @@ export default {
 
   data() {
     return { 
-      queryConfig: { "search":"", "orderBy": "id", "isDesc": true, "pageIndex": 1,"pageSize": 5 },
+      queryConfig: { "search":"", "orderBy": "id", "isDesc": true, "pageIndex": 1,"pageSize": 10 },
       apiData: [],
       lastSearch:null,
     };

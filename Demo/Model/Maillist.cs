@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Model;
 [Index(nameof(Email),Name="idx_email",IsUnique =true)]
@@ -10,7 +11,8 @@ public class MailList{
    /// <summary>
    /// email address
    /// </summary>
-    public String? Email{ get; set; }
+    [Required]
+    public String Email{ get; set; }="";
 
      /// <summary>
     ///  description
