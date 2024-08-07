@@ -27,7 +27,7 @@
                 activeLink: null,
                 menuRoutes: [
                     {name:'Product',path:'/'},
-                    {name:'Subscriptions',path:'subscriptions'}
+                    {name:'Subscriptions',path:'/subscriptions'}
                 ],
             };
         },
