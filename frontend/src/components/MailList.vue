@@ -3,7 +3,7 @@
         <h1>Mail List</h1>
         <el-table stripe
           :data="apiData.items"
-          :default-sort="{ prop: 'id', order: 'ascending' }"
+          :default-sort="{ prop: 'id', order: 'descending' }"
           @sort-change="changeOrder"
           style="width: 100%"
         >
@@ -24,7 +24,7 @@
     },
     data() {
       return {
-        queryConfig: { "orderBy": "id", "isDesc": false, "pageIndex": 1,"pageSize": 5 },
+        queryConfig: { "orderBy": "id", "isDesc": true, "pageIndex": 1,"pageSize": 5 },
         apiData: [],
       };
     },
@@ -68,13 +68,5 @@
     }
   }
   </script>
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
-  }
-  </style>
+
   

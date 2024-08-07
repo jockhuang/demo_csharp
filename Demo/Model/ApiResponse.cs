@@ -11,7 +11,11 @@ public class ApiResponse
     }
 
     public static ApiResponse Failed(string message){
-        return new ApiResponse{Message=message,Data=null};
+        return Failed(message,500);
+    }
+
+    public static ApiResponse Failed(string message, int code){
+        return new ApiResponse{Message=message,Data=null,Code=code};
     }
 
     public int Code { get; set; } = 0;

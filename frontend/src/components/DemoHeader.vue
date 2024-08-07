@@ -8,7 +8,7 @@
       />
     </el-menu-item>
     <div class="flex-grow" />
-    <el-menu-item v-for="rule in this.$router.options.routes" :index="rule.path" :key="rule.path">
+    <el-menu-item v-for="rule in menuRoutes" :index="rule.path" :key="rule.path">
         <i :class="rule.icon"></i>
         {{ rule.name }}
     </el-menu-item>
@@ -25,6 +25,10 @@
         data() {
             return {
                 activeLink: null,
+                menuRoutes: [
+                    {name:'Product',path:'/'},
+                    {name:'MailList',path:'mailList'}
+                ],
             };
         },
     };
