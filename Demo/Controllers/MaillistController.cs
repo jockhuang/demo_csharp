@@ -33,5 +33,17 @@ public class MailListController : ControllerBase
         var data =  await _service.AddMail(mail);
         return ApiResponse.Ok(mail);
     }
+
+    [HttpDelete("RemoveSubscription")]
+    public async Task<ApiResponse> DeleteProduct(string email)
+    {
+        var result = await _service.DeleteMail(email);
+       if(result){
+            return ApiResponse.Ok(result);
+        }else{
+            // for safety reason, always return true
+            return ApiResponse.Ok(true);
+        }
+    }
 }
 

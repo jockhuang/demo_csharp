@@ -21,9 +21,24 @@ public class MailListService : IMailListService
         return mail;
     }
 
+    public async Task<bool> DeleteMail(String email)
+    {
+        var itemToRemove = await _context.MailList.FirstOrDefaultAsync(x => x.Email == email);
+        if (itemToRemove != null) {
+            _context.MailList.Remove(itemToRemove);
+            _context.SaveChanges();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public async Task<PaginatedData<MailList>> GetAllMailList(QueryCondition query)
     {
         var dbQuery =  _context.MailList.Where(c=>c.Id>0);
+        if(!string.IsNullOrWhiteSpace(query.Search)){
+            dbQuery = dbQuery.Where(c=>c.Email.Contains(query.Search, StringComparison.OrdinalIgnoreCase));
+        }
         var count = await dbQuery.CountAsync();
         if(!string.IsNullOrWhiteSpace(query.OrderBy)) {
             dbQuery=dbQuery.OrderBy(query.OrderBy,query.IsDesc);

@@ -3,7 +3,7 @@
     <el-pagination
       :current-page="PageIndex"
       :page-size="PageSize"
-      :page-sizes="[1, 5, 10, 20]"
+      :page-sizes="[5, 10, 20,50,100]"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalCount"
       @size-change="handleSizeChange"
@@ -21,7 +21,6 @@ export default {
     return{
       PageSize :this.pageSize,
       PageIndex :this.pageIndex,
-      PageSizeOptions : [1,5,10,50],
     }
   },
   props: {

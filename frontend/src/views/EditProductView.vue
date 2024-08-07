@@ -28,7 +28,7 @@
       
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">{{slug?'Update':'Add'}}</el-button>
-        <el-button @click="$router.back()">Cancel</el-button>
+        <el-button @click="$router.push({name:'Product'})">Cancel</el-button>
       </el-form-item>
     </el-form>
   </el-card>

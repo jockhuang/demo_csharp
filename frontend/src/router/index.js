@@ -31,13 +31,17 @@ const router = createRouter({
       component: () => import('../views/EditProductView.vue'),
     },
     {
-      path: '/mailList', 
-      name: 'MailList',
+      path: '/subscriptions', 
+      name: 'Subscriptions',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: MailListView
-    }
+    },{
+      name: 'AddSubscription',
+      path: '/subscriptions/add',
+      component: () => import('../views/EditSubscription.vue'),
+    },
   ]
 })
 
