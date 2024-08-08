@@ -26,7 +26,8 @@
             return {
                 activeLink: null,
                 menuRoutes: [
-                    {name:'Product',path:'/'},
+                    {name:'Home',path:'/'},
+                    {name:'Product',path:'/product'},
                     {name:'Subscriptions',path:'/subscriptions'}
                 ],
             };

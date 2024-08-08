@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Mail List</h1>
+        
         <div class="mt-4">
         <el-button type="primary" @click="routeToAddSubscriptions">Add</el-button>
         <el-input
@@ -26,6 +26,7 @@
         >
           <el-table-column prop="id" label="ID" sortable width="180" />
           <el-table-column prop="email" label="Email" sortable />
+          <el-table-column prop="description" label="Description" sortable />
           <el-table-column prop="createDate" :formatter="formatDemoDate" sortable label="Create Date"  />
           <el-table-column width="360">
           <template #header>
