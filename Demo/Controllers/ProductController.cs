@@ -61,7 +61,7 @@ public class ProductController : ControllerBase
         }
     }
 
-     [HttpGet("{productId}")]
+    [HttpGet("{productId}")]
     public async Task<ApiResponse> GetProduct(int productId)
     {
         var result = await _service.GetProduct(productId);

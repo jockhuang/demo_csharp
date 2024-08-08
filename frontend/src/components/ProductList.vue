@@ -1,7 +1,7 @@
 
 <template >
     <div>
-      <h1>Product List</h1>
+      
       <div class="mt-4">
         <el-button type="primary" @click="routeToAddProduct">Add</el-button>
         <el-input
