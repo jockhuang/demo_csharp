@@ -8,10 +8,10 @@
           @input="searchData"
       >
         <template #prepend>
-          <el-button :icon="Search"/>
+          <el-button :icon="Search" @click="searchData"/>
         </template>
         <template #append>
-          <el-button type="primary" @click="searchData">Search</el-button>
+          <el-button type="primary">Search</el-button>
 
         </template>
       </el-input>
@@ -22,63 +22,43 @@
               style="width: 100%"
               @sort-change="changeOrder"
     >
-      <el-table-column label="ID" prop="id" sortable width="80"/>
-      <el-table-column label="Name" prop="name" show-overflow-tooltip sortable width="400"/>
-      <el-table-column label="Description" prop="description" show-overflow-tooltip sortable/>
-      <el-table-column label="Price" prop="price" sortable width="120"/>
-
-      <el-table-column label="Released" prop="isRelease" sortable width="80">
-
-        <template #default="scope">
-          <el-switch
-              v-model="scope.row.isRelease"
-              disabled
-              size="small"
-          />
-          <!-- <el-col :sm="1" :lg="1">
-          <el-result :icon="scope.row.isRelease ? 'success' : 'error'" />
-          </el-col> -->
-        </template>
-      </el-table-column>
-      <el-table-column label="Create Date" prop="createDate" sortable width="180"/>
-      <el-table-column label="Update Date" prop="updateDate" sortable width="180"/>
+      <el-table-column label="ID" prop="id" sortable width="180"/>
+      <el-table-column label="Email" prop="email" sortable/>
+      <el-table-column label="Description" prop="description" sortable/>
+      <el-table-column label="Create Date" prop="createDate" sortable/>
       <el-table-column width="360">
         <template #header>
           Operations
         </template>
         <template #default="scope">
-          <el-button @click="handleEdit(scope.row.id)">
-            Edit
-          </el-button>
           <el-popconfirm
               cancel-button-text="No, Thanks"
               confirm-button-text="Yes"
               icon-color="#626AEF"
-              title="Are you sure to delete this?"
+              title="Are you sure to remove this email?"
               width="220"
-              @confirm="handleDelete(scope.row.id)"
+              @confirm="handleDelete(scope.row.email)"
           >
             <template #reference>
               <el-button
                   type="danger"
               >
-                Delete
+                Remove
               </el-button>
             </template>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-
     <DemoPagination :count="apiData.data.totalCount" :index="queryParams.pageIndex" :mySize="queryParams.pageSize"
                     @page-change="pageChange"/>
   </div>
 </template>
 <script lang="ts" setup>
 import {Search} from "@element-plus/icons-vue";
-import api, {APIResponse, Product, QueryConfig, QueryResult} from "@/common/api"
+import api, {APIResponse, QueryConfig, QueryResult, Subscription} from "@/common/api"
 import DemoPagination from "@/components/Pagination.vue";
-import {onMounted, reactive, toRefs, watch} from 'vue'
+import {onMounted, reactive, toRefs, watch,} from 'vue'
 import {useRouter} from 'vue-router'
 import {ElMessage} from "element-plus";
 
@@ -90,8 +70,8 @@ const props = defineProps({
     type: Number
   }
 })
-
 let {mySize} = toRefs(props)
+
 
 const queryParams = reactive<QueryConfig>({
   orderBy: "id",
@@ -101,7 +81,7 @@ const queryParams = reactive<QueryConfig>({
   pageSize: mySize,
 })
 let lastSearch = null;
-let apiData = reactive<APIResponse<QueryResult<Product>>>({
+let apiData = reactive<APIResponse<QueryResult<Subscription>>>({
   code: 0,
   data: {
     items: [],
@@ -114,9 +94,8 @@ let apiData = reactive<APIResponse<QueryResult<Product>>>({
 })
 
 function fetchData() {
-  console.log("fetchData:", queryParams)
-  api.products.list(queryParams).then(data => {
-    console.log("response:", data)
+  api.subscriptions.list(queryParams).then(data => {
+    console.log("subscriptions:", data)
     apiData.data = data.data
     apiData.code = data.code
     apiData.message = data.message
@@ -127,26 +106,6 @@ function fetchData() {
 function pageChange(index: number, size: number) {
   queryParams.pageIndex = index
   queryParams.pageSize = size
-}
-
-function handleDelete(id: string) {
-  api.products.delete(id).then(response => {
-    console.log(response.data)
-    if (response.code == 0) {
-      ElMessage({
-        message: 'Congrats, this mail has been removed!',
-        type: 'success',
-      })
-      fetchData()
-    } else {
-      ElMessage.error(response.message)
-    }
-  })
-}
-
-function handleEdit(id: string) {
-  console.log("handleEdit", id)
-  router.push({name: 'EditProduct', params: {slug: id}})
 }
 
 function changeOrder(orderOp) {
@@ -162,6 +121,22 @@ function changeOrder(orderOp) {
 
   }
 }
+
+function handleDelete(email: string) {
+  api.subscriptions.delete(email).then(response => {
+    console.log(response.data)
+    if (response.code == 0) {
+      ElMessage({
+        message: 'Congrats, this mail has been removed!',
+        type: 'success',
+      })
+      fetchData()
+    } else {
+      ElMessage.error(response.message)
+    }
+  })
+}
+
 
 watch(
     () => {
@@ -185,4 +160,3 @@ onMounted(() => {
   fetchData()
 })
 </script>
-

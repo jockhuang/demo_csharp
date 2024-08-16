@@ -1,19 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-
-using Demo.Service;
 using Demo.Controllers;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
+using Demo.Service;
 using Demo.Service.Impl;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // string password = File.ReadAllText("/run/secrets/db-password");
 // string connectionString = $"Server=db;Database=example;Uid=root;Pwd={password};";
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Console.WriteLine($"Connecting to MySQL...{connectionString}");
 
-builder.Services.AddDbContext<DemoDbContext>(options => options.UseMySQL(connectionString: connectionString));
+builder.Services.AddDbContext<DemoDbContext>(options => options.UseMySQL(connectionString));
 
 // builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -34,21 +32,27 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    using(var scope = app.Services.CreateScope()){
+    using (var scope = app.Services.CreateScope())
+    {
         var services = scope.ServiceProvider;
-        try{
-            if (builder.Configuration["EF_MIGRATE"] == "true"){
+        try
+        {
+            if (builder.Configuration["EF_MIGRATE"] == "true")
+            {
                 var db = services.GetRequiredService<DemoDbContext>();
                 db.Database.Migrate();
             }
-        }catch(Exception e){
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
         }
     }
+
     app.UseCors(corsPolicyBuilder =>
         corsPolicyBuilder.WithOrigins("http://localhost:5173")
-        .AllowAnyMethod()
-        .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
     );
 }
 

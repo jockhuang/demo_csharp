@@ -1,5 +1,5 @@
 <template>
-     <div>
+  <div>
     <el-row :gutter="16">
       <el-col :span="6">
         <div class="statistic-card">
@@ -19,18 +19,18 @@
               <div style="display: inline-flex; align-items: center">
                 Released Products
                 <el-tooltip
-                  effect="dark"
-                  content="Released Products"
-                  placement="top"
+                    content="Released Products"
+                    effect="dark"
+                    placement="top"
                 >
-                  <el-icon style="margin-left: 4px" :size="12">
-                    <Warning />
+                  <el-icon :size="12" style="margin-left: 4px">
+                    <Warning/>
                   </el-icon>
                 </el-tooltip>
               </div>
             </template>
           </el-statistic>
-         
+
         </div>
       </el-col>
       <el-col :span="6">
@@ -40,18 +40,18 @@
               <div style="display: inline-flex; align-items: center">
                 UnReleased Products
                 <el-tooltip
-                  effect="dark"
-                  content="UnReleased Products"
-                  placement="top"
+                    content="UnReleased Products"
+                    effect="dark"
+                    placement="top"
                 >
-                  <el-icon style="margin-left: 4px" :size="12">
-                    <Warning />
+                  <el-icon :size="12" style="margin-left: 4px">
+                    <Warning/>
                   </el-icon>
                 </el-tooltip>
               </div>
             </template>
           </el-statistic>
-          
+
         </div>
       </el-col>
       <el-col :span="6">
@@ -66,58 +66,67 @@
         </div>
       </el-col>
     </el-row>
-    
+    <div>
+      <h2>Products:</h2>
+      <ProductList :mySize="5"/>
     </div>
-  </template>
-  
-  <script lang="ts" setup>
-  import {Warning} from '@element-plus/icons-vue'
-  import axios from 'axios';
-  import { ElMessage } from 'element-plus'
-  import { onMounted,reactive } from 'vue'
+    <p/>
+    <div>
+      <h2>Subscriptions:</h2>
+      <SubscriptionList :mySize="5"/>
+    </div>
+  </div>
+</template>
 
+<script lang="ts" setup>
+import {Warning} from '@element-plus/icons-vue'
+import axios from 'axios';
+import {ElMessage} from 'element-plus'
+import {onMounted, reactive} from 'vue'
+import SubscriptionList from '../components/SubscriptionList.vue'
+import ProductList from '../components/ProductList.vue'
 
-  interface HomeData {
-    releasedProduct: number
-    unReleasedProduct: number
-    subscription: number
-  }
+interface HomeData {
+  releasedProduct: number
+  unReleasedProduct: number
+  subscription: number
+}
 
-  const homeData = reactive<HomeData>({
-    releasedProduct: 0,
-    unReleasedProduct:0,
-    subscription: 0,
-   
-    })
+const homeData = reactive<HomeData>({
+  releasedProduct: 0,
+  unReleasedProduct: 0,
+  subscription: 0,
 
-  async function fetchData() {
+})
+
+async function fetchData() {
   await axios.get('http://localhost/api/Statistic/')
       .then(response => {
         console.log(response.data);
         const data = response.data;
-        if(data.code==0){
+        if (data.code == 0) {
           console.log(data.data);
           homeData.releasedProduct = data.data.releasedProduct;
           homeData.unReleasedProduct = data.data.unReleasedProduct;
           homeData.subscription = data.data.subscription;
-          
-        }else{
+
+        } else {
           ElMessage.error(data.message)
         }
       })
       .catch(error => {
         console.error(error);
-        if(error.response.data.message){
+        if (error.response.data.message) {
           ElMessage.error(error.response.data.message)
-        }else{
+        } else {
           ElMessage.error(error.message)
         }
       });
-  
+
 }
 
 onMounted(async () => {
-    await fetchData()
+  await fetchData()
 })
-  </script>
+</script>
   

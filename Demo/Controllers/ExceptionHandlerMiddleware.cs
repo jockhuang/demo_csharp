@@ -26,7 +26,8 @@ public class ExceptionHandlerMiddleware(RequestDelegate next)
 
             // Customize the error response as needed.
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsJsonAsync(new ApiResponse { Code = -1, Message = $"An error occurred while processing your request({ex.Message})."});
+            await context.Response.WriteAsJsonAsync(new ApiResponse
+                { Code = -1, Message = $"An error occurred while processing your request({ex.Message})." });
         }
     }
 }

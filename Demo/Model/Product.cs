@@ -1,49 +1,49 @@
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Model;
-[Index(nameof(Name),Name="idx_product_name",IsUnique =true)]
- public class Product{
+
+[Index(nameof(Name), Name = "idx_product_name", IsUnique = true)]
+public class Product
+{
     /// <summary>
-    /// product id
+    ///     product id
     /// </summary>
-    public int Id{ get; set; }
+    public int Id { get; set; }
 
     /// <summary>
-    /// product name
+    ///     product name
     /// </summary>
     [Required]
-    public String Name{ get; set; }="";
+    public string Name { get; set; } = "";
 
     /// <summary>
-    /// product description
+    ///     product description
     /// </summary>
-    public String? Description{ get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    /// product image url
+    ///     product image url
     /// </summary>
-    public String? ImageURL{ get; set; }
+    public string? ImageURL { get; set; }
 
     /// <summary>
-    /// product price 
+    ///     product price
     /// </summary>
-    public double? Price{ get; set; }
+    public double? Price { get; set; }
 
     /// <summary>
-    /// the flag of the product is released
+    ///     the flag of the product is released
     /// </summary>
-    public Boolean IsRelease{ get; set; } = false;
+    public bool IsRelease { get; set; } = false;
 
     /// <summary>
-    /// the create datetime of product
+    ///     the create datetime of product
     /// </summary>
-    public DateTime? CreateDate{ get; set; }
+    public DateTime? CreateDate { get; set; }
 
     /// <summary>
-    /// the update datetime of product
+    ///     the update datetime of product
     /// </summary>
-    public DateTime? UpdateDate{ get; set; }
-
+    public DateTime? UpdateDate { get; set; }
 }
-

@@ -1,8 +1,6 @@
 using Demo.Model;
 using Demo.Service;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-
 
 namespace Demo.Controllers;
 
@@ -14,8 +12,8 @@ public class StatisticController : ControllerBase
 
     private readonly IStatisticService _service;
 
-   public StatisticController(IStatisticService service,ILogger<StatisticController> logger)
-   {
+    public StatisticController(IStatisticService service, ILogger<StatisticController> logger)
+    {
         _service = service;
         _logger = logger;
     }
@@ -24,11 +22,8 @@ public class StatisticController : ControllerBase
     public async Task<ApiResponse> GetHomeData()
     {
         var result = await _service.GetHomeData();
-        if(result!=null){
+        if (result != null)
             return ApiResponse.Ok(result);
-        }else{
-            return ApiResponse.Failed("Item not found!");
-        }
-        
+        return ApiResponse.Failed("Item not found!");
     }
 }

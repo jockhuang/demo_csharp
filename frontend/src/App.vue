@@ -1,18 +1,17 @@
 <script setup>
-import {RouterView } from 'vue-router'
+import {RouterView} from 'vue-router'
 import Header from './components/DemoHeader.vue'
 import Footer from './components/DemoFooter.vue'
-
 </script>
 
 <template>
   <div>
-    <Header />
+    <Header/>
     <el-main>
-      <RouterView />
+      <RouterView/>
     </el-main>
     <Footer/>
-    
+
   </div>
 </template>
 

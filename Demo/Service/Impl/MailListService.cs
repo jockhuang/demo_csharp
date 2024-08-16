@@ -1,9 +1,7 @@
-namespace Demo.Service.Impl;
-
 using Demo.Model;
 using Microsoft.EntityFrameworkCore;
-using Demo.Service;
-using System.Threading.Tasks;
+
+namespace Demo.Service.Impl;
 
 public class MailListService : IMailListService
 {
@@ -21,32 +19,30 @@ public class MailListService : IMailListService
         return mail;
     }
 
-    public async Task<bool> DeleteMail(String email)
+    public async Task<bool> DeleteMail(string email)
     {
         var itemToRemove = await _context.MailList.FirstOrDefaultAsync(x => x.Email == email);
-        if (itemToRemove != null) {
+        if (itemToRemove != null)
+        {
             _context.MailList.Remove(itemToRemove);
             _context.SaveChanges();
             return true;
-        }else{
-            return false;
         }
+
+        return false;
     }
 
     public async Task<PaginatedData<MailList>> GetAllMailList(QueryCondition query)
     {
-        var dbQuery =  _context.MailList.Where(c=>c.Id>0);
-        if(!string.IsNullOrWhiteSpace(query.Search)){
-            dbQuery = dbQuery.Where(c=>c.Email.Contains(query.Search, StringComparison.OrdinalIgnoreCase));
-        }
+        var dbQuery = _context.MailList.Where(c => c.Id > 0);
+        if (!string.IsNullOrWhiteSpace(query.Search))
+            dbQuery = dbQuery.Where(c => c.Email.Contains(query.Search, StringComparison.OrdinalIgnoreCase));
         var count = await dbQuery.CountAsync();
-        if(!string.IsNullOrWhiteSpace(query.OrderBy)) {
-            dbQuery=dbQuery.OrderBy(query.OrderBy,query.IsDesc);
-        }
+        if (!string.IsNullOrWhiteSpace(query.OrderBy)) dbQuery = dbQuery.OrderBy(query.OrderBy, query.IsDesc);
         var mailList = await dbQuery
             .Skip((query.PageIndex - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync();
-        return new PaginatedData<MailList>(mailList,query.PageIndex,count,query.PageSize);
+        return new PaginatedData<MailList>(mailList, query.PageIndex, count, query.PageSize);
     }
 }
