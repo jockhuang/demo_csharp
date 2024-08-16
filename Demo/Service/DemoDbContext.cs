@@ -1,13 +1,15 @@
-using Microsoft.EntityFrameworkCore;
 using Demo.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Service;
 
-public class DemoDbContext:DbContext{
+public class DemoDbContext : DbContext
+{
+    public DemoDbContext(DbContextOptions<DemoDbContext> options)
+        : base(options)
+    {
+    }
 
-    public DemoDbContext(DbContextOptions<DemoDbContext> options) 
-            : base(options) { }
-    
     public DbSet<Product> Products { get; set; }
     public DbSet<MailList> MailList { get; set; }
 
