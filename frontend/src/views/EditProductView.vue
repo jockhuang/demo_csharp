@@ -37,8 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {FormInstance, FormRules} from 'element-plus'
-import {ElMessage} from 'element-plus'
+import {FormInstance, FormRules,ElMessage} from 'element-plus'
 import {computed, onMounted, reactive, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import api, {Product} from "@/common/api"
@@ -73,7 +72,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!', slug, product)
-      let responsePromise;
+      let responsePromise
       if (!slug.value) {
         responsePromise = api.products.add(product)
       } else {

@@ -24,8 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {FormInstance, FormRules} from 'element-plus'
-import {ElMessage} from 'element-plus'
+import {FormInstance, FormRules, ElMessage} from 'element-plus'
 import {reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import api, {Subscription} from "@/common/api"

@@ -80,49 +80,31 @@
 
 <script lang="ts" setup>
 import {Warning} from '@element-plus/icons-vue'
-import axios from 'axios';
 import {ElMessage} from 'element-plus'
 import {onMounted, reactive} from 'vue'
-import SubscriptionList from '../components/SubscriptionList.vue'
-import ProductList from '../components/ProductList.vue'
+import SubscriptionList from '@/components/SubscriptionList.vue'
+import ProductList from '@/components/ProductList.vue'
+import api, {Statistic} from "@/common/api";
 
-interface HomeData {
-  releasedProduct: number
-  unReleasedProduct: number
-  subscription: number
-}
-
-const homeData = reactive<HomeData>({
+const homeData = reactive<Statistic>({
   releasedProduct: 0,
   unReleasedProduct: 0,
   subscription: 0,
-
 })
 
 async function fetchData() {
-  await axios.get('http://localhost/api/Statistic/')
-      .then(response => {
-        console.log(response.data);
-        const data = response.data;
-        if (data.code == 0) {
-          console.log(data.data);
-          homeData.releasedProduct = data.data.releasedProduct;
-          homeData.unReleasedProduct = data.data.unReleasedProduct;
-          homeData.subscription = data.data.subscription;
+  await api.statistic.data().then(data => {
+    console.log("response:", data)
+    if (data.code == 0) {
+      console.log(data.data);
+      homeData.releasedProduct = data.data.releasedProduct;
+      homeData.unReleasedProduct = data.data.unReleasedProduct;
+      homeData.subscription = data.data.subscription;
+    } else {
+      ElMessage.error(data.message)
+    }
 
-        } else {
-          ElMessage.error(data.message)
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        if (error.response.data.message) {
-          ElMessage.error(error.response.data.message)
-        } else {
-          ElMessage.error(error.message)
-        }
-      });
-
+  })
 }
 
 onMounted(async () => {

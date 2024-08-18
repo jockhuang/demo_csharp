@@ -115,7 +115,6 @@ function changeOrder(orderOp) {
   } else {
     queryParams.isDesc = false;
     queryParams.orderBy = "id";
-
   }
 }
 
