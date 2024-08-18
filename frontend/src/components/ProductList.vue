@@ -70,7 +70,7 @@
       </el-table-column>
     </el-table>
 
-    <DemoPagination :count="apiData.data.totalCount" :index="queryParams.pageIndex" :mySize="queryParams.pageSize"
+    <DemoPagination v-model:count="apiData.data.totalCount" v-model:index="queryParams.pageIndex" v-model:mySize="queryParams.pageSize"
                     @page-change="pageChange"/>
   </div>
 </template>
@@ -98,7 +98,7 @@ const queryParams = reactive<QueryConfig>({
   isDesc: true,
   pageIndex: 1,
   search: "",
-  pageSize: mySize,
+  pageSize: mySize.value,
 })
 let lastSearch = null;
 let apiData = reactive<APIResponse<QueryResult<Product>>>({

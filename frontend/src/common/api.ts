@@ -30,8 +30,8 @@ axios.interceptors.response.use(
 );
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const request = {
-    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    delete: <T>(url: string, body: {}) => axios.delete<T>(url, body).then(responseBody),
+    get: <T>(url: string, body?:{}) => axios.get<T>(url, body).then(responseBody),
+    delete: <T>(url: string, body?: {}) => axios.delete<T>(url, body).then(responseBody),
     post: <T>(url: string, body: {}) =>
         axios.post<T>(url, body).then(responseBody),
     put: <T>(url: string, body: {}) =>
