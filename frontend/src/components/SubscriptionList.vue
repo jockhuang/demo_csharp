@@ -50,7 +50,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <DemoPagination :count="apiData.data.totalCount" :index="queryParams.pageIndex" :mySize="queryParams.pageSize"
+    <DemoPagination v-model:count="apiData.data.totalCount" v-model:index="queryParams.pageIndex" v-model:mySize="queryParams.pageSize"
                     @page-change="pageChange"/>
   </div>
 </template>
@@ -62,8 +62,6 @@ import {onMounted, reactive, toRefs, watch,} from 'vue'
 import {useRouter} from 'vue-router'
 import {ElMessage} from "element-plus";
 
-const router = useRouter()
-
 const props = defineProps({
   mySize: {
     default: 10,
@@ -72,13 +70,12 @@ const props = defineProps({
 })
 let {mySize} = toRefs(props)
 
-
 const queryParams = reactive<QueryConfig>({
   orderBy: "id",
   isDesc: true,
   pageIndex: 1,
   search: "",
-  pageSize: mySize,
+  pageSize: mySize.value,
 })
 let lastSearch = null;
 let apiData = reactive<APIResponse<QueryResult<Subscription>>>({

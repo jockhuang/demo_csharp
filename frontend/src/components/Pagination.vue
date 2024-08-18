@@ -6,37 +6,27 @@
         :page-sizes="[5, 10, 20,50,100]"
         :total="count"
         layout="total, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
     />
   </div>
 
 </template>
 <script lang="ts" setup>
-import {toRefs} from 'vue'
 
-const props = defineProps({
-  index: {type:Number},
-  mySize:{type:Number},
-  count:{type:Number}
-})
 
-const emit = defineEmits<{
-  (e: 'pageChange', index: number, size: number): void
-}>()
 
-let {index, mySize, count} = toRefs(props)
-
+const index = defineModel('index')
+const mySize = defineModel('mySize')
+const count = defineModel('count')
 function handleCurrentChange(goToPage) {
-  if (goToPage == index) return
-  index = goToPage
-  emit("pageChange", index, mySize)
+  if (goToPage == index.value) return
+  index.value = goToPage
 }
 
 function handleSizeChange(newPageSize) {
-  if (newPageSize === mySize) return
-  mySize = newPageSize
-  emit("pageChange", index, mySize);
+  if (newPageSize === mySize.value) return
+  mySize.value = newPageSize
 }
 </script>
 
