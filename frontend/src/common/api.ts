@@ -9,7 +9,7 @@ axios.defaults.baseURL = 'http://localhost/api';
 // });
 axios.interceptors.response.use(
     (res) => res,
-    (error: AxiosError) => {
+    (error: AxiosError): Promise<never> => {
         const {data, status, config} = error.response!;
         switch (status) {
             case 400:
@@ -45,7 +45,7 @@ export interface APIResponse<T> {
 }
 
 export interface Product {
-    id: number
+    id?: number
     name: string
     description: string
     isRelease: boolean
@@ -54,9 +54,13 @@ export interface Product {
     createDate?: string
     updateDate?: string
 }
-
+export interface Statistic{
+    releasedProduct: number
+    unReleasedProduct: number
+    subscription: number
+}
 export interface Subscription {
-    id: number
+    id?: number
     email: string
     description?: string
     createDate?: string
@@ -97,8 +101,13 @@ const subscriptions = {
     add: (data: Subscription) => request.post<APIResponse<Subscription>>('/MailList/AddSubscription', data),
 };
 
+const statistic = {
+    data: () => request.get<APIResponse<Statistic>>(`/Statistic/`),
+};
+
 const api = {
     products,
     subscriptions,
+    statistic,
 };
 export default api;

@@ -24,8 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {FormInstance, FormRules} from 'element-plus'
-import {ElMessage} from 'element-plus'
+import {FormInstance, FormRules, ElMessage} from 'element-plus'
 import {reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import api, {Subscription} from "@/common/api"
@@ -41,12 +40,21 @@ const subscription = reactive<Subscription>({
 
 })
 
+const validateEmail = (rule: any, value: any, callback: any) => {
+  const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  console.log("email:",value,regexp.test(value))
+  if (!regexp.test(value)) {
+    callback(new Error('Email address is invalid.'))
+  }
+  callback()
+
+}
 const rules = reactive<FormRules<Subscription>>({
   email: [
-    {required: true, message: 'Please input the email', trigger: 'blur'},
-    {min: 3, max: 255, message: 'Length should be 3 to 25', trigger: 'blur'},
+    {required: true, trigger: 'blur'},
+    {min: 3, max: 80,  trigger: 'blur'},
+    { validator: validateEmail,trigger: 'blur' },
   ],
-
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
