@@ -9,7 +9,7 @@ axios.defaults.baseURL = 'http://localhost/api';
 // });
 axios.interceptors.response.use(
     (res) => res,
-    (error: AxiosError) => {
+    (error: AxiosError): Promise<never> => {
         const {data, status, config} = error.response!;
         switch (status) {
             case 400:
